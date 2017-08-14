@@ -11,6 +11,7 @@ public:
   void smallTurne();
   void bigTurne();
   void colorDetection();
+  void sonarDetection();
   void terminate();
 
  private:
@@ -19,6 +20,7 @@ public:
         SMALL_TURNE,
         COLOR_DETECTION,
         BIG_TURNE,
+        SONAR_DETECTION,
         AAA
     
   };

@@ -27,7 +27,7 @@ void main_task(intptr_t unused){
   */
 
   gInitializer = new Initializer(gArm);
-  gInitializer->init();
+  // gInitializer->init();
   init_f(__FILE__);
   while(1){//無限ループ
     msg_f("rooping.", 1);

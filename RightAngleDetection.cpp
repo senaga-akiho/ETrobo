@@ -122,22 +122,16 @@ void RightAngleDetection::sonarDetection() {
   int16_t distance = sonarSensor.getDistance(); // <3>書き換え
   msg_f(distance,5);
   //暗い状態に入った瞬間
-  if((id==0 || id==1 || id==6 || id==7) || clock.now()<2000){
-    int pwm_l;      // <6>
-    int pwm_r;
-
-    float Kp = color_Kp;
-    diff=diff-color_target;//ここまで書き換え
-    float turn = Kp * diff + color_bias; 
-    
-    pwm_l = pwm + turn-5;      // <6>
-    pwm_r = pwm - turn-5;
-    leftWheel.setPWM(pwm_l);
-    rightWheel.setPWM(pwm_r);
-  }else{
+  if(150>distance){
+    clock.sleep(4000);
+    leftWheel.setPWM(pwm-1);
+    rightWheel.setPWM(pwm);
+    int32_t first_count_r;
+    first_count_r = rightWheel.getCount();
+    while(rightWheel.getCount()-first_count_r < 600){
+    }
     leftWheel.stop();
     rightWheel.stop();
-    //first = true;
     fin = false;
   }
 }

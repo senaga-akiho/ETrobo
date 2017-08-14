@@ -13,6 +13,7 @@ public:
   void detectionRun();
   void detectionIf(int diff);
   void colorDetection();
+  void sonarDetection();
   void init();
   void terminate();
   float calc_prop_value();
@@ -22,7 +23,7 @@ public:
   Motor leftWheel;
   Motor rightWheel;
   ColorSensor colorSensor;
-  SonarSensor sonarSensor
+  SonarSensor sonarSensor;
   Clock       clock;
   uint32_t max_time = 0;
   int8_t min_bri = 100;
