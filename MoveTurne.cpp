@@ -4,7 +4,7 @@ int line_target = 8;
 
 MoveTurne::MoveTurne():
   leftWheel(PORT_C), rightWheel(PORT_B),
-  colorSensor(PORT_2) {
+  colorSensor(PORT_2),arm(PORT_A) {
 }
 
 void MoveTurne::init() {
@@ -22,53 +22,13 @@ bool MoveTurne::getFin() {
 void MoveTurne::setFin(bool set_fin) {
   fin = set_fin;
 }
-bool first = false;
+bool arm_first = true;
 bool lf_first = false;
 bool second = false;
 bool movement = false;
 int32_t first_count_r;
 int32_t first_count_l;
-// void MoveTurne::smallTurne() {
-//   if(movement == false){
-//     if(first==false){
-//       first_count_r = rightWheel.getCount();
-//       first_count_l = leftWheel.getCount();
-//       first=true;
-//     }
-//     leftWheel.setPWM(-pwm*1);
-//     rightWheel.setPWM(pwm*1);
-//     int32_t moter_diff = first_count_r-rightWheel.getCount();
-//     msg_f(moter_diff,4);
-//     if (moter_diff < -95) {
-//       movement = true;
-//       leftWheel.stop();
-//       rightWheel.stop();
-//       first = false;
-//     }
-//   }else{
-//     lineFind();
-//   }
-// }
-// void MoveTurne::bigTurne() {
-//   if(movement == false){
-//     if(second==false){
-//       first_count_r = rightWheel.getCount();
-//       first_count_l = leftWheel.getCount();
-//       second=true;
-//     }
-//       leftWheel.setPWM(pwm*1);
-//       rightWheel.setPWM(-pwm*1);
-//       int32_t moter_diff = rightWheel.getCount()-first_count_r;
-//       if (moter_diff < -280) {
-//         movement = true;
-//         leftWheel.stop();
-//         rightWheel.stop();
-//         second = false;
-//       }
-//   }else{
-//     lineFind();
-//   }
-// }
+
 void MoveTurne::smallTurne() {
   turne(pwm*1,pwm*-1,95);
 }
@@ -128,6 +88,21 @@ void MoveTurne::lineFind() {
     movement = false;
   }
 }
-
-
-
+void MoveTurne::armDown() {
+  while(true){
+    if(arm_first){
+      clock.reset();
+      arm_first=false;
+    }
+    arm.setPWM(-10);
+    msg_f("initializ", 3);
+    // if(arm.getCount()-first_count < -50){
+    if(clock.now()>1000){
+      arm.reset();
+      arm.setPWM(0);
+      msg_f("stop", 3);
+        break;
+    }
+  }
+  fin = false;
+}

@@ -34,6 +34,11 @@ void RunSelector::runSelect() {
         msg_f("sonarD.", 3);
         sonarDetection();
         break;
+    case ARM_DOWN:
+        //execScenarioTracing();
+        msg_f("armD.", 3);
+        armDown();
+        break;
     case AAA:
         //execScenarioTracing();
         msg_f("finish.", 3);
@@ -51,6 +56,8 @@ void RunSelector::angleDetection() {
             mState = SMALL_TURNE;
         }else if(angle_times==3){
             mState = SMALL_TURNE;
+        }else if(angle_times==4){
+            mState = AAA;
         }
         angle_times=angle_times+1;
 		right_angle_detection.setFin(true);
@@ -61,10 +68,12 @@ void RunSelector::smallTurne() {
 	if(move_turne.getFin() == false){
         if(s_turne_times==1){
             mState = COLOR_DETECTION;
-            // mState = ANGLE_DETECTION;
         }else if(s_turne_times==2){
             mState = ANGLE_DETECTION;
-            // mState = COLOR_DETECTION;
+        }else if(s_turne_times==3){
+            mState = COLOR_DETECTION;
+        }else if(s_turne_times==4){
+            mState = ANGLE_DETECTION;
         }
         s_turne_times = s_turne_times+1;
 		move_turne.setFin(true);
@@ -76,6 +85,15 @@ void RunSelector::colorDetection() {
         if(color_times==1){
             mState = BIG_TURNE;
             // mState = AAA;
+        }else if(color_times==2){
+            mState = BIG_TURNE;
+            // mState = COLOR_DETECTION;
+        }else if(color_times==3){
+            mState = BIG_TURNE;
+            // mState = COLOR_DETECTION;
+        }else if(color_times==4){
+            mState = BIG_TURNE;
+            // mState = COLOR_DETECTION;
         }
         color_times=color_times+1;
         right_angle_detection.setFin(true);
@@ -88,6 +106,10 @@ void RunSelector::bigTurne() {
             mState = COLOR_DETECTION;
             //mState = AAA;
         }else if(b_turne_times==2){
+            mState = ANGLE_DETECTION;
+        }else if(b_turne_times==3){
+            mState = COLOR_DETECTION;
+        }else if(b_turne_times==4){
             mState = ANGLE_DETECTION;
         }
         b_turne_times = b_turne_times+1;
@@ -105,6 +127,14 @@ void RunSelector::sonarDetection() {
         // }
         // b_turne_times = b_turne_times+1;
         right_angle_detection.setFin(true);
+        // mState = ANGLE_DETECTION;
+        mState = ARM_DOWN;
+    }
+}
+void RunSelector::armDown() {
+    move_turne.armDown();
+    if(move_turne.getFin() == false){
+        move_turne.setFin(true);
         mState = ANGLE_DETECTION;
     }
 }

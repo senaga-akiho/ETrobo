@@ -124,11 +124,11 @@ void RightAngleDetection::sonarDetection() {
   //暗い状態に入った瞬間
   if(150>distance){
     clock.sleep(4000);
-    leftWheel.setPWM(pwm-1);
-    rightWheel.setPWM(pwm);
+    leftWheel.setPWM(pwm*4-1);
+    rightWheel.setPWM(pwm*4);
     int32_t first_count_r;
     first_count_r = rightWheel.getCount();
-    while(rightWheel.getCount()-first_count_r < 600){
+    while(rightWheel.getCount()-first_count_r < 500){
     }
     leftWheel.stop();
     rightWheel.stop();

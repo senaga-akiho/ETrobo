@@ -12,6 +12,7 @@ public:
   void bigTurne();
   void turne(int8_t pwm_r,int8_t pwm_l,int fin_count);
   void lineFind();
+  void armDown();
   void init();
   void terminate();
   bool getFin();
@@ -19,6 +20,7 @@ public:
  private:
   Motor leftWheel;
   Motor rightWheel;
+  Motor arm;
   ColorSensor colorSensor;
   Clock       clock;
   const int8_t mThreshold = 20;
