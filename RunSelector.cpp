@@ -1,9 +1,8 @@
 #include "RunSelector.h"
 
 int color_times = 1;
-int b_turne_times = 1;
-int s_turne_times = 1;
 int angle_times = 1;
+int line_times = 1;
 RunSelector::RunSelector():mState(SONAR_DETECTION){
 }
 void RunSelector::terminate() {
@@ -25,22 +24,18 @@ void RunSelector::runSelect() {
         colorDetection();
         break;
     case BIG_TURNE:
-        //execScenarioTracing();
         msg_f("bigT.", 3);
         bigTurne();
         break;
     case SONAR_DETECTION:
-        //execScenarioTracing();
         msg_f("sonarD.", 3);
         sonarDetection();
         break;
-    case ARM_DOWN:
-        //execScenarioTracing();
+    case LINE_FIND:
         msg_f("armD.", 3);
-        armDown();
+        lineFind();
         break;
     case AAA:
-        //execScenarioTracing();
         msg_f("finish.", 3);
         break;
     default:
@@ -57,7 +52,9 @@ void RunSelector::angleDetection() {
         }else if(angle_times==3){
             mState = SMALL_TURNE;
         }else if(angle_times==4){
-            mState = AAA;
+            mState = SMALL_TURNE;
+        }else if(angle_times==5){
+            mState = SONAR_DETECTION;
         }
         angle_times=angle_times+1;
 		right_angle_detection.setFin(true);
@@ -66,16 +63,7 @@ void RunSelector::angleDetection() {
 void RunSelector::smallTurne() {
 	move_turne.smallTurne();
 	if(move_turne.getFin() == false){
-        if(s_turne_times==1){
-            mState = COLOR_DETECTION;
-        }else if(s_turne_times==2){
-            mState = ANGLE_DETECTION;
-        }else if(s_turne_times==3){
-            mState = COLOR_DETECTION;
-        }else if(s_turne_times==4){
-            mState = ANGLE_DETECTION;
-        }
-        s_turne_times = s_turne_times+1;
+        mState = LINE_FIND;
 		move_turne.setFin(true);
 	}
 }
@@ -102,39 +90,45 @@ void RunSelector::colorDetection() {
 void RunSelector::bigTurne() {
     move_turne.bigTurne();
     if(move_turne.getFin() == false){
-        if(b_turne_times==1){
-            mState = COLOR_DETECTION;
-            //mState = AAA;
-        }else if(b_turne_times==2){
-            mState = ANGLE_DETECTION;
-        }else if(b_turne_times==3){
-            mState = COLOR_DETECTION;
-        }else if(b_turne_times==4){
-            mState = ANGLE_DETECTION;
-        }
-        b_turne_times = b_turne_times+1;
+        mState = LINE_FIND;
         move_turne.setFin(true);
     }
 }
 void RunSelector::sonarDetection() {
     right_angle_detection.sonarDetection();
     if(right_angle_detection.getFin() == false){
-        // if(b_turne_times==1){
-        //     mState = COLOR_DETECTION;
-        //     //mState = AAA;
-        // }else if(b_turne_times==2){
-        //     mState = ANGLE_DETECTION;
-        // }
-        // b_turne_times = b_turne_times+1;
         right_angle_detection.setFin(true);
-        // mState = ANGLE_DETECTION;
-        mState = ARM_DOWN;
+        color_times = 1;
+        angle_times = 1;
+        line_times = 1;
+        // mState = ARM_DOWN;
+        mState = LINE_FIND;
     }
 }
-void RunSelector::armDown() {
-    move_turne.armDown();
-    if(move_turne.getFin() == false){
-        move_turne.setFin(true);
-        mState = ANGLE_DETECTION;
+void RunSelector::lineFind() {
+    right_angle_detection.lineFind();
+    if(right_angle_detection.getFin() == false){
+        if(line_times==1){
+            mState = ANGLE_DETECTION;
+        }else if(line_times==2){
+            mState = COLOR_DETECTION;
+        }else if(line_times==3){
+            mState = COLOR_DETECTION;
+        }else if(line_times==4){
+            mState = ANGLE_DETECTION;
+        }else if(line_times==5){
+            mState = ANGLE_DETECTION;
+        }else if(line_times==6){
+            mState = COLOR_DETECTION;
+        }else if(line_times==7){
+            mState = COLOR_DETECTION;
+        }else if(line_times==8){
+            mState = ANGLE_DETECTION;
+        }else if(line_times==9){
+            mState = ANGLE_DETECTION;
+        }
+
+        line_times=line_times+1;
+        right_angle_detection.setFin(true);
     }
 }

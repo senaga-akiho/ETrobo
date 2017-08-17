@@ -14,14 +14,19 @@ public:
   void detectionIf(int diff);
   void colorDetection();
   void sonarDetection();
+  void armDown();
+  void armUp();
+  void armMove(int power);
   void init();
   void terminate();
+  void lineFind();
   float calc_prop_value();
   bool getFin();
   void setFin(bool set_fin);
  private:
   Motor leftWheel;
   Motor rightWheel;
+  Motor arm;
   ColorSensor colorSensor;
   SonarSensor sonarSensor;
   Clock       clock;
@@ -32,5 +37,18 @@ public:
   bool first = true;
   bool move = true;
   bool fin = true;
-  // const int8_t pwm = (Motor::PWM_MAX) / 6;
- };
+  //変動あるパラメーター
+  float angle_Kp = 0.10;        // <1>
+  int angle_target = 30;        // <2>
+  int angle_bias = 0;
+  int line_limit = 6;
+
+  float color_Kp = 0.45;        // <1>
+  int color_target = 8;        // <2>
+  int color_bias = 0;
+
+  int line_target = 8;
+  bool lf_first = true;
+
+  bool arm_first = true;
+};

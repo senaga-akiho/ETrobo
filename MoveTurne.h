@@ -11,8 +11,6 @@ public:
   void smallTurne();
   void bigTurne();
   void turne(int8_t pwm_r,int8_t pwm_l,int fin_count);
-  void lineFind();
-  void armDown();
   void init();
   void terminate();
   bool getFin();
@@ -26,4 +24,6 @@ public:
   const int8_t mThreshold = 20;
   const int8_t pwm = (Motor::PWM_MAX) / 10;
   bool fin = true;
+  bool second = true;
+  bool movement = true;
  };

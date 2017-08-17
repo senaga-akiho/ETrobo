@@ -12,7 +12,7 @@ public:
   void bigTurne();
   void colorDetection();
   void sonarDetection();
-  void armDown();
+  void lineFind();
   void terminate();
 
  private:
@@ -22,7 +22,7 @@ public:
         COLOR_DETECTION,
         BIG_TURNE,
         SONAR_DETECTION,
-        ARM_DOWN,
+        LINE_FIND,
         AAA
     
   };
