@@ -8,6 +8,7 @@ APPL_CXXOBJS += \
 	RightAngleDetection.o \
 	RunSelector.o \
 	MoveTurne.o \
+	SumouMove.o \
 	Initializer.o
 
 SRCLANG := c++

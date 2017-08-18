@@ -3,6 +3,7 @@
 int color_times = 1;
 int angle_times = 1;
 int line_times = 1;
+int big_t_times = 1;
 RunSelector::RunSelector():mState(SONAR_DETECTION){
 }
 void RunSelector::terminate() {
@@ -34,6 +35,14 @@ void RunSelector::runSelect() {
     case LINE_FIND:
         msg_f("armD.", 3);
         lineFind();
+        break;
+    case BLOCK_COLOR_DETECTION:
+        msg_f("BlockD.", 3);
+        blockColorDetection();
+        break;
+    case SUMOU_RUN:
+        msg_f("BlockD.", 3);
+        sumouRun();
         break;
     case AAA:
         msg_f("finish.", 3);
@@ -70,28 +79,20 @@ void RunSelector::smallTurne() {
 void RunSelector::colorDetection() {
     right_angle_detection.colorDetection();
     if(right_angle_detection.getFin() == false){
-        if(color_times==1){
-            mState = BIG_TURNE;
-            // mState = AAA;
-        }else if(color_times==2){
-            mState = BIG_TURNE;
-            // mState = COLOR_DETECTION;
-        }else if(color_times==3){
-            mState = BIG_TURNE;
-            // mState = COLOR_DETECTION;
-        }else if(color_times==4){
-            mState = BIG_TURNE;
-            // mState = COLOR_DETECTION;
-        }
-        color_times=color_times+1;
+        mState=BLOCK_COLOR_DETECTION;
         right_angle_detection.setFin(true);
     }
 }
 void RunSelector::bigTurne() {
-    move_turne.bigTurne();
+    if(big_t_times%2 == 1){
+        move_turne.bigTurneR();
+    }else{
+        move_turne.bigTurneL();
+    }
     if(move_turne.getFin() == false){
         mState = LINE_FIND;
         move_turne.setFin(true);
+        big_t_times = big_t_times+1;
     }
 }
 void RunSelector::sonarDetection() {
@@ -130,5 +131,29 @@ void RunSelector::lineFind() {
 
         line_times=line_times+1;
         right_angle_detection.setFin(true);
+    }
+}
+void RunSelector::blockColorDetection() {
+    right_angle_detection.blockColorDetection();
+    if(right_angle_detection.getFin() == false){
+        mState=SUMOU_RUN;
+        msg_f(right_angle_detection.getFcolor(),4);
+        msg_f(right_angle_detection.getBcolor(),5);
+        right_angle_detection.setFin(true);
+    }
+}
+void RunSelector::sumouRun() {
+    int Fid= right_angle_detection.getFcolor();
+    int Bid= right_angle_detection.getBcolor();
+    if(Fid==Bid){
+        //色が一緒だったら寄り切り
+        sumou_move.run(0);
+    }else{
+        //違かったら押し出し
+        sumou_move.run(1);
+    }
+    if(sumou_move.getFin() == false){
+        mState=BIG_TURNE;
+        sumou_move.setFin(true);
     }
 }

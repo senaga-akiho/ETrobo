@@ -1,5 +1,5 @@
 #include "app.h"
-#include "WheelCtrl.h"
+// #include "WheelCtrl.h"
 #include "Initializer.h"
 
 #include "util.h"
@@ -16,7 +16,6 @@ static Initializer *gInitializer;
 //RightAngleDetection right_angle_detection;//追加
 RunSelector run_selector;
 Clock clock;
-WheelCtrl wc;
 
 void main_task(intptr_t unused){
   /*

@@ -9,7 +9,8 @@ class MoveTurne {
 public:
   MoveTurne();
   void smallTurne();
-  void bigTurne();
+  void bigTurneR();
+  void bigTurneL();
   void turne(int8_t pwm_r,int8_t pwm_l,int fin_count);
   void init();
   void terminate();

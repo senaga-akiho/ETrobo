@@ -1,5 +1,6 @@
 #include "RightAngleDetection.h"
 #include "MoveTurne.h"
+#include "SumouMove.h"
 
 using namespace ev3api;
 
@@ -14,6 +15,8 @@ public:
   void sonarDetection();
   void lineFind();
   void terminate();
+  void blockColorDetection();
+  void sumouRun();
 
  private:
   enum State {
@@ -23,11 +26,14 @@ public:
         BIG_TURNE,
         SONAR_DETECTION,
         LINE_FIND,
+        BLOCK_COLOR_DETECTION,
+        SUMOU_RUN,
         AAA
     
   };
   State mState;
   RightAngleDetection right_angle_detection;//追加
   MoveTurne move_turne;//追加
+  SumouMove sumou_move;//追加
   // const int8_t pwm = (Motor::PWM_MAX) / 6;
  };

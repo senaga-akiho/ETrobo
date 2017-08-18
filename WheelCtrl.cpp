@@ -3,7 +3,6 @@
 using ev3api::Motor;
 
 // コンストラクタ
-// ここでright,left モータのインスタンス作成
 WheelCtrl::WheelCtrl():
   leftWheel(PORT_C),rightWheel(PORT_B){
 }
@@ -23,9 +22,9 @@ void WheelCtrl::term(){
 // モータの走った距離を回転角度(度)で返す
 int32_t WheelCtrl::getCount(int id){
   if(id == 0){
-	return rightWheel.getCount();
+  return rightWheel.getCount();
   }else if(id == 1){
-	return leftWheel.getCount();
+  return leftWheel.getCount();
   }
   return -1; // 異常終了
 }
@@ -47,7 +46,7 @@ void WheelCtrl::setCount(int32_t count, int id){
   if(id == 0){
   rightWheel.setCount(count);
   }else if(id == 1){
-	leftWheel.setCount(count);
+  leftWheel.setCount(count);
   }
 }
 
@@ -59,10 +58,15 @@ void WheelCtrl::setCount(int32_t count){
 
 // モータを動かす強さを設定。モータ別セット
 void WheelCtrl::setPWM(int pwm, int id){
+  if (pwm > 100) {
+  pwm = 100;
+  }else if(pwm < -100){
+  pwm = -100;
+  }
    if(id == 0){
-	rightWheel.setPWM(pwm);
+  rightWheel.setPWM(pwm);
   }else if(id == 1){
-	leftWheel.setPWM(pwm);
+  leftWheel.setPWM(pwm);
   }
 }
 
@@ -77,9 +81,9 @@ void WheelCtrl::setPWM(int pwm){
 // モーターをストップ。モーター別
 void WheelCtrl::stop(int id){
    if(id == 0){
-	rightWheel.stop();
+  rightWheel.stop();
   }else if(id == 1){
-	leftWheel.stop();
+  leftWheel.stop();
   }
 }
 

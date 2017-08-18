@@ -3,7 +3,7 @@
 
 using ev3api::Motor;
 
-class WheelCtrl {
+class WheelCtrl{
   public:
 	WheelCtrl();
 	void init();

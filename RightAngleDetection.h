@@ -20,9 +20,12 @@ public:
   void init();
   void terminate();
   void lineFind();
+  void blockColorDetection();
   float calc_prop_value();
   bool getFin();
   void setFin(bool set_fin);
+  colorid_t getBcolor();
+  colorid_t getFcolor();
  private:
   Motor leftWheel;
   Motor rightWheel;
@@ -46,9 +49,14 @@ public:
   float color_Kp = 0.45;        // <1>
   int color_target = 8;        // <2>
   int color_bias = 0;
+  colorid_t floor_color;
 
   int line_target = 8;
   bool lf_first = true;
 
   bool arm_first = true;
+
+  const uint32_t duration = 1000;
+  int pam=10;
+  colorid_t block_color;//98追加
 };

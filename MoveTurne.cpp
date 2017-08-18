@@ -11,7 +11,6 @@ void MoveTurne::init() {
 }
 
 void MoveTurne::terminate() {
-  //msg_f("Stopped.", 1);
   leftWheel.stop();
   rightWheel.stop();
 }
@@ -27,8 +26,11 @@ int32_t first_count_l;
 void MoveTurne::smallTurne() {
   turne(pwm*1,pwm*-1,95);
 }
-void MoveTurne::bigTurne() {
+void MoveTurne::bigTurneR() {
   turne(pwm*-1,pwm*1,-280);
+}
+void MoveTurne::bigTurneL() {
+  turne(pwm*1,pwm*-1,340);
 }
 void MoveTurne::turne(int8_t pwm_r,int8_t pwm_l,int fin_count) {
   if(movement == true){
@@ -53,7 +55,7 @@ void MoveTurne::turne(int8_t pwm_r,int8_t pwm_l,int fin_count) {
       second = true;
     }
   }else{
-     msg_f("LineFind.", 4);
+     msg_f("LineFind.",3);
     leftWheel.stop();
     rightWheel.stop();
     fin = false;
