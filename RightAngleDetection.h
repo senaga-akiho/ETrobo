@@ -9,7 +9,7 @@ using namespace ev3api;
 class RightAngleDetection {
 public:
   RightAngleDetection();
-  void run();
+  void run(int set_pwm);
   void detectionRun();
   void detectionIf(int diff);
   void colorDetection();
@@ -19,7 +19,7 @@ public:
   void armMove(int power);
   void init();
   void terminate();
-  void lineFind();
+  void lineFind(int time);
   void blockColorDetection();
   float calc_prop_value();
   bool getFin();
@@ -47,7 +47,7 @@ public:
   int line_limit = 6;
 
   float color_Kp = 0.45;        // <1>
-  int color_target = 8;        // <2>
+  int color_target = 9;        // <2>
   int color_bias = 0;
   colorid_t floor_color;
 

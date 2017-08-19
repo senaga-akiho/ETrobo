@@ -27,7 +27,7 @@ void MoveTurne::smallTurne() {
   turne(pwm*1,pwm*-1,95);
 }
 void MoveTurne::bigTurneR() {
-  turne(pwm*-1,pwm*1,-280);
+  turne(pwm*-1,pwm*1,-270);
 }
 void MoveTurne::bigTurneL() {
   turne(pwm*1,pwm*-1,350);

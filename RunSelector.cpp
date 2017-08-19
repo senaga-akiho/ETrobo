@@ -5,7 +5,7 @@ int angle_times = 1;
 int line_times = 1;
 int big_t_times = 1;
 int sonar_times = 1;
-RunSelector::RunSelector():mState(SONAR_DETECTION){
+RunSelector::RunSelector():mState(FIRST_ARM_UP){
 }
 void RunSelector::terminate() {
   right_angle_detection.terminate();
@@ -52,7 +52,11 @@ void RunSelector::runSelect() {
     case ITEM_PLACE:
         msg_f("ItemP.", 3);
         itemPlace();
-        break;    
+        break;
+    case FIRST_ARM_UP:
+        msg_f("FIRST_ARM_UP.", 3);
+        firstArmUp();
+        break;
     case AAA:
         msg_f("finish.", 3);
         break;
@@ -125,7 +129,11 @@ void RunSelector::sonarDetection() {
     }
 }
 void RunSelector::lineFind() {
-    right_angle_detection.lineFind();
+    if(line_times==1){
+        right_angle_detection.lineFind(1800);
+    }else{
+        right_angle_detection.lineFind(1000);
+    }
     if(right_angle_detection.getFin() == false){
         if(line_times==1){
             mState = ANGLE_DETECTION;
@@ -188,4 +196,8 @@ void RunSelector::itemPlace() {
         mState=AAA;
         item_move.setFin(true);
     }
+}
+void RunSelector::firstArmUp() {
+    right_angle_detection.armMove(10);
+        mState=SONAR_DETECTION;
 }

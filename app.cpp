@@ -13,7 +13,7 @@ using namespace ev3api;
 Motor   gArm(PORT_A);
 
 static Initializer *gInitializer;
-//RightAngleDetection right_angle_detection;//追加
+// RightAngleDetection right_angle_detection;//追加
 RunSelector run_selector;
 Clock clock;
 
@@ -24,7 +24,6 @@ void main_task(intptr_t unused){
   コンストラクタ(関数)
 　  ∟オブジェクトを作る際に内容を初期化する関数
   */
-
   gInitializer = new Initializer(gArm);
   // gInitializer->init();
   init_f(__FILE__);

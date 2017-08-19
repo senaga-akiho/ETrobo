@@ -41,10 +41,10 @@ float RightAngleDetection::calc_prop_value() {
   return (Kp * diff + angle_bias);                       // <4>
 }
 /*走る*/
-void RightAngleDetection::run() {
+void RightAngleDetection::run(int set_pwm) {
   float turn = calc_prop_value(); // <5>
-  int pwm_l = pwm + turn;      // <6>
-  int pwm_r = pwm - turn;      // <6>
+  int pwm_l = set_pwm + turn;      // <6>
+  int pwm_r = set_pwm - turn;      // <6>
   leftWheel.setPWM(pwm_l);
   rightWheel.setPWM(pwm_r);
 }
@@ -63,12 +63,17 @@ void RightAngleDetection::detectionRun() {
 void RightAngleDetection::detectionIf(int diff) {
   //暗い状態に入った瞬間
   if(diff<line_limit){
+      int back_count = rightWheel.getCount();
+      rightWheel.setPWM(-15);
+      leftWheel.setPWM(-15);
+      while(back_count-rightWheel.getCount() < 20 ){
+      }
       leftWheel.stop();
       rightWheel.stop();
       fin = false;
     }else{
       clock.reset();
-      run();
+      run(pwm);
   }
 }
 /*床の色を検知したら保存*/
@@ -103,9 +108,29 @@ void RightAngleDetection::sonarDetection() {
   int16_t distance = sonarSensor.getDistance(); // <3>書き換え
   msg_f(distance,5);
   //暗い状態に入った瞬間
-  if(distance<80 && distance!=0){
+  if(distance<20 && distance!=0){
+    clock.reset();
+    //
+    while(clock.now()<2500){
+      //run(pwm/2);
+      int diff = colorSensor.getBrightness(); // <3>書き換え
+      int pwm_l;      // <6>
+      int pwm_r;
+
+      float Kp = color_Kp;
+      diff=diff-color_target;//ここまで書き換え
+      float turn = Kp * diff + color_bias; 
+      
+      pwm_l = pwm + turn-5;      // <6>
+      pwm_r = pwm - turn-5;
+      leftWheel.setPWM(pwm_l);
+      rightWheel.setPWM(pwm_r);
+    }
+    leftWheel.stop();
+    rightWheel.stop();
+    // 
     armUp();
-    clock.sleep(2000);
+    clock.sleep(1000);
     leftWheel.setPWM(50-1);
     rightWheel.setPWM(50);
     int32_t first_count_r;
@@ -119,28 +144,49 @@ void RightAngleDetection::sonarDetection() {
   }
 }
 void RightAngleDetection::armUp() {
-  armMove(30);
+  armMove(40);
 }
 void RightAngleDetection::armDown() {
-  armMove(-30);
+  armMove(-40);
 }
 void RightAngleDetection::armMove(int power) {
+  int32_t first_count_a;
+  first_count_a = arm.getCount();
   while(true){
-    if(arm_first){
-      clock.reset();
-      arm_first=false;
-    }
-    arm.setPWM(power);
-    if(clock.now()>250){
+    if(power<0){
+      arm.setPWM(-5);
+      if(arm.getCount()-first_count_a<power){
       arm.reset();
       arm.setPWM(0);
-      arm_first=true;
         break;
+      }
+    }else{
+      arm.setPWM(5);
+      if(arm.getCount()-first_count_a>power){
+        arm.reset();
+        arm.setPWM(0);
+          break;
+      }
     }
   }
 }
+// void RightAngleDetection::armMove2(int power) {
+//   while(true){
+//     if(arm_first){
+//       clock.reset();
+//       arm_first=false;
+//     }
+//     arm.setPWM(power);
+//     if(clock.now()>250){
+//       arm.reset();
+//       arm.setPWM(0);
+//       arm_first=true;
+//         break;
+//     }
+//   }
+// }
 /*ライン復帰*/
-void RightAngleDetection::lineFind() {
+void RightAngleDetection::lineFind(int time) {
   int diff = colorSensor.getBrightness(); // <3>書き換え
   if(lf_first==true){
     clock.reset();
@@ -149,7 +195,7 @@ void RightAngleDetection::lineFind() {
   int pwm_l;      // <6>
   int pwm_r;
   //2秒間はライン復帰
-  if(clock.now()<1800){
+  if(clock.now()<time){
     if(diff > line_target){
       pwm_l = pwm + 9;      // <6>
       pwm_r = 0;
@@ -168,18 +214,17 @@ void RightAngleDetection::lineFind() {
 }
 /*ライン復帰*/
 void RightAngleDetection::blockColorDetection() {
-    arm.setPWM(pam);
-    clock.sleep(duration);
-    arm.stop();
+  int up_num = 1;
+  armMove(60);
     while(true){
+      armMove(1);
       block_color = colorSensor.getColorNumber();
       if(block_color!=0&&block_color!=1&&block_color!=6&&block_color!=7){
           break;
       }
+      up_num = up_num+1;
     }
-    arm.setPWM(-pam);
-    clock.sleep(duration);
-    arm.stop();
+    armMove(-1*up_num-60);
     fin = false;
 }
 

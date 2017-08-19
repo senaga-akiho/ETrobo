@@ -20,6 +20,7 @@ public:
   void sumouRun();
   void itemRun();
   void itemPlace();
+  void firstArmUp();
 
  private:
   enum State {
@@ -33,6 +34,7 @@ public:
         SUMOU_RUN,
         ITEM_RUN,
         ITEM_PLACE,
+        FIRST_ARM_UP,
         AAA
     
   };
