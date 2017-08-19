@@ -86,18 +86,18 @@ void RunSelector::angleDetection() {
 		right_angle_detection.setFin(true);
 	}
 }
-void RunSelector::smallTurne() {
-	move_turne.smallTurne();
-	if(move_turne.getFin() == false){
-        mState = LINE_FIND;
-		move_turne.setFin(true);
-	}
-}
 void RunSelector::colorDetection() {
     right_angle_detection.colorDetection();
     if(right_angle_detection.getFin() == false){
         mState=BLOCK_COLOR_DETECTION;
         right_angle_detection.setFin(true);
+    }
+}
+void RunSelector::smallTurne() {
+    move_turne.smallTurne();
+    if(move_turne.getFin() == false){
+        mState = LINE_FIND;
+        move_turne.setFin(true);
     }
 }
 void RunSelector::bigTurne() {
@@ -130,9 +130,9 @@ void RunSelector::sonarDetection() {
 }
 void RunSelector::lineFind() {
     if(line_times==1){
-        right_angle_detection.lineFind(1800);
+        right_angle_detection.lineFind(2000);
     }else{
-        right_angle_detection.lineFind(1000);
+        right_angle_detection.lineFind(1800);
     }
     if(right_angle_detection.getFin() == false){
         if(line_times==1){

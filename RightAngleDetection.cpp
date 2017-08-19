@@ -66,7 +66,7 @@ void RightAngleDetection::detectionIf(int diff) {
       int back_count = rightWheel.getCount();
       rightWheel.setPWM(-15);
       leftWheel.setPWM(-15);
-      while(back_count-rightWheel.getCount() < 20 ){
+      while(back_count-rightWheel.getCount() < 10 ){
       }
       leftWheel.stop();
       rightWheel.stop();
@@ -170,23 +170,9 @@ void RightAngleDetection::armMove(int power) {
     }
   }
 }
-// void RightAngleDetection::armMove2(int power) {
-//   while(true){
-//     if(arm_first){
-//       clock.reset();
-//       arm_first=false;
-//     }
-//     arm.setPWM(power);
-//     if(clock.now()>250){
-//       arm.reset();
-//       arm.setPWM(0);
-//       arm_first=true;
-//         break;
-//     }
-//   }
-// }
 /*ライン復帰*/
 void RightAngleDetection::lineFind(int time) {
+  // fin = false;
   int diff = colorSensor.getBrightness(); // <3>書き換え
   if(lf_first==true){
     clock.reset();
@@ -203,8 +189,8 @@ void RightAngleDetection::lineFind(int time) {
       pwm_l = 0;      // <6>
       pwm_r = pwm + 9;
     }
-    leftWheel.setPWM(pwm_l);
-    rightWheel.setPWM(pwm_r);
+    leftWheel.setPWM(pwm_l/1.5);
+    rightWheel.setPWM(pwm_r/1.5);
   }else{
     leftWheel.stop();
     rightWheel.stop();

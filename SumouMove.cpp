@@ -94,7 +94,7 @@ void SumouMove::run(int flag){
             nowAve = (nowRight + nowLeft) / 2;
             goal = nowAve - startAve;
 
-            if(goal == -50){
+            if(goal == -40){
                wc.stop();
                
                //終わり
@@ -136,7 +136,7 @@ void SumouMove::run(int flag){
             nowAve = (nowRight + nowLeft) / 2;
             goal = nowAve - startAve;
 
-            if(goal == -200){
+            if(goal == -190){
                 wc.stop();
                 //終わり
                 fin=false;

@@ -41,7 +41,8 @@ public:
   bool move = true;
   bool fin = true;
   //変動あるパラメーター
-  float angle_Kp = 0.10;        // <1>
+  // float angle_Kp = 0.10;        // <1>
+  float angle_Kp = 0.45; 
   int angle_target = 30;        // <2>
   int angle_bias = 0;
   int line_limit = 6;
