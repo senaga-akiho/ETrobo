@@ -103,14 +103,14 @@ void RightAngleDetection::sonarDetection() {
   int16_t distance = sonarSensor.getDistance(); // <3>書き換え
   msg_f(distance,5);
   //暗い状態に入った瞬間
-  if(distance<150 && distance!=0){
+  if(distance<80 && distance!=0){
     armUp();
-    clock.sleep(4000);
+    clock.sleep(2000);
     leftWheel.setPWM(50-1);
     rightWheel.setPWM(50);
     int32_t first_count_r;
     first_count_r = rightWheel.getCount();
-    while(rightWheel.getCount()-first_count_r < 600){
+    while(rightWheel.getCount()-first_count_r < 520){
     }
     leftWheel.stop();
     rightWheel.stop();
@@ -149,7 +149,7 @@ void RightAngleDetection::lineFind() {
   int pwm_l;      // <6>
   int pwm_r;
   //2秒間はライン復帰
-  if(clock.now()<2000){
+  if(clock.now()<1800){
     if(diff > line_target){
       pwm_l = pwm + 9;      // <6>
       pwm_r = 0;

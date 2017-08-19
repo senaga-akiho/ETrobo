@@ -51,7 +51,7 @@ void SumouMove::run(int flag){
             wc.setPWM(20,0);
 
             //基準地点から現在地点の距離の条件
-            if(goal == 150){
+            if(goal == 80){
                 wc.stop();
 
                 //基準値設定
@@ -73,7 +73,7 @@ void SumouMove::run(int flag){
             wc.setPWM(-20,0);
 
             //基準地点から現在地点の距離の条件
-            if(goal == -150){
+            if(goal == -80){
                 wc.stop();
 
                 //基準値設定
@@ -94,7 +94,7 @@ void SumouMove::run(int flag){
             nowAve = (nowRight + nowLeft) / 2;
             goal = nowAve - startAve;
 
-            if(goal == -100){
+            if(goal == -60){
                wc.stop();
                
                //終わり
@@ -136,7 +136,7 @@ void SumouMove::run(int flag){
             nowAve = (nowRight + nowLeft) / 2;
             goal = nowAve - startAve;
 
-            if(goal == -250){
+            if(goal == -210){
                 wc.stop();
                 //終わり
                 fin=false;

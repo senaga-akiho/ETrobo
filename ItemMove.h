@@ -3,16 +3,25 @@
 #include "WheelCtrl.h"
 #endif
 
+#include "Motor.h"
+#include "Clock.h"
+
+
 using namespace ev3api;
 
-class SumouMove{
+class ItemMove{
 public:
-	void run(int flag);
-	bool getFin();
-  	void setFin(bool set_fin);
+    ItemMove();
+	void run();
+	void place();
+    bool getFin();
+    void setFin(bool set_fin);
+
     
 private:
     WheelCtrl wc;
+    Motor arm;
+    Clock       clock;
 
     int32_t startRight = 0;
     int32_t startLeft = 0;
@@ -23,6 +32,6 @@ private:
     float nowAve = 0;
 
     float goal = 0;
-    bool fin = true;
 
+    bool fin = true;
 };

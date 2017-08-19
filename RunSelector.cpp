@@ -4,6 +4,7 @@ int color_times = 1;
 int angle_times = 1;
 int line_times = 1;
 int big_t_times = 1;
+int sonar_times = 1;
 RunSelector::RunSelector():mState(SONAR_DETECTION){
 }
 void RunSelector::terminate() {
@@ -41,9 +42,17 @@ void RunSelector::runSelect() {
         blockColorDetection();
         break;
     case SUMOU_RUN:
-        msg_f("BlockD.", 3);
+        msg_f("sumouR.", 3);
         sumouRun();
         break;
+    case ITEM_RUN:
+        msg_f("ItemR.", 3);
+        itemRun();
+        break;
+    case ITEM_PLACE:
+        msg_f("ItemP.", 3);
+        itemPlace();
+        break;    
     case AAA:
         msg_f("finish.", 3);
         break;
@@ -63,7 +72,11 @@ void RunSelector::angleDetection() {
         }else if(angle_times==4){
             mState = SMALL_TURNE;
         }else if(angle_times==5){
-            mState = SONAR_DETECTION;
+            if(sonar_times == 3){
+                mState = ITEM_RUN;
+            }else{
+                mState = SONAR_DETECTION;
+            }
         }
         angle_times=angle_times+1;
 		right_angle_detection.setFin(true);
@@ -103,7 +116,12 @@ void RunSelector::sonarDetection() {
         angle_times = 1;
         line_times = 1;
         // mState = ARM_DOWN;
-        mState = LINE_FIND;
+        if(sonar_times == 1 || sonar_times == 2){
+            mState = LINE_FIND;
+        }else if(sonar_times == 3){
+            mState = ITEM_RUN;
+        }
+        sonar_times = sonar_times+1;
     }
 }
 void RunSelector::lineFind() {
@@ -155,5 +173,19 @@ void RunSelector::sumouRun() {
     if(sumou_move.getFin() == false){
         mState=BIG_TURNE;
         sumou_move.setFin(true);
+    }
+}
+void RunSelector::itemRun() {
+    item_move.run();
+    if(item_move.getFin() == false){
+        mState=ITEM_PLACE;
+        item_move.setFin(true);
+    }
+}
+void RunSelector::itemPlace() {
+    item_move.place();
+    if(item_move.getFin() == false){
+        mState=AAA;
+        item_move.setFin(true);
     }
 }

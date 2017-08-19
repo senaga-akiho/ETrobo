@@ -9,6 +9,7 @@ APPL_CXXOBJS += \
 	RunSelector.o \
 	MoveTurne.o \
 	SumouMove.o \
+	ItemMove.o \
 	Initializer.o
 
 SRCLANG := c++
