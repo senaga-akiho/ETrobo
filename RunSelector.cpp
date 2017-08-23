@@ -141,6 +141,7 @@ void RunSelector::lineFind() {
             mState = COLOR_DETECTION;
         }else if(line_times==3){
             mState = COLOR_DETECTION;
+            // mState = ANGLE_DETECTION;
         }else if(line_times==4){
             mState = ANGLE_DETECTION;
         }else if(line_times==5){
@@ -149,6 +150,7 @@ void RunSelector::lineFind() {
             mState = COLOR_DETECTION;
         }else if(line_times==7){
             mState = COLOR_DETECTION;
+            // mState = ANGLE_DETECTION;
         }else if(line_times==8){
             mState = ANGLE_DETECTION;
         }else if(line_times==9){

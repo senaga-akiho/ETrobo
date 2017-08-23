@@ -3,13 +3,15 @@
 #include "Clock.h"
 #include "util.h"
 #include "SonarSensor.h"
+#include "pidCtrl.h"
 
 using namespace ev3api;
 
 class RightAngleDetection {
 public:
   RightAngleDetection();
-  void run(int set_pwm);
+  void angle_run(int set_pwm);
+  void color_run(int set_pwm);
   void detectionRun();
   void detectionIf(int diff);
   void colorDetection();
@@ -33,6 +35,7 @@ public:
   ColorSensor colorSensor;
   SonarSensor sonarSensor;
   Clock       clock;
+  pidCtrl pidctrl;
   uint32_t max_time = 0;
   int8_t min_bri = 100;
   const int8_t mThreshold = 20;
