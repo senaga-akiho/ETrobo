@@ -51,7 +51,7 @@ void RightAngleDetection::angle_run(int set_pwm) {
   rightWheel.setPWM(pwm_r);
 }
 void RightAngleDetection::color_run(int set_pwm) {
-  pidctrl.setTargetColor(200);
+  pidctrl.setTargetColor(120);
   float turn = pidctrl.calcColorWalkPid();
   turn *= 0.01;
   int pwm_l = set_pwm * (1.0 + turn);
@@ -74,17 +74,17 @@ void RightAngleDetection::detectionRun() {
 void RightAngleDetection::detectionIf(int diff) {
   //暗い状態に入った瞬間
   if(diff<line_limit){
-      int back_count = rightWheel.getCount();
-      rightWheel.setPWM(15);
-      leftWheel.setPWM(15);
-      while(back_count-rightWheel.getCount() > -30 ){
-      }
+      // int back_count = rightWheel.getCount();
+      // rightWheel.setPWM(15);
+      // leftWheel.setPWM(15);
+      // while(back_count-rightWheel.getCount() > -30 ){
+      // }
       leftWheel.stop();
       rightWheel.stop();
       fin = false;
     }else{
       clock.reset();
-      angle_run(pwm/2);
+      angle_run(5);
   }
 }
 /*床の色を検知したら保存*/
@@ -103,7 +103,7 @@ void RightAngleDetection::colorDetection() {
     // pwm_r = pwm - turn-5;
     // leftWheel.setPWM(pwm_l);
     // rightWheel.setPWM(pwm_r);
-    color_run(pwm/2);
+    color_run(5);
   }else{
     clock.reset();
     leftWheel.setPWM(-20);
