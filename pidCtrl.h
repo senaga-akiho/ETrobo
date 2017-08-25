@@ -1,9 +1,6 @@
 #include "ev3api.h"
 #include "ColorSensor.h"
-#ifndef INCLUDED_WHEEL_CONT
-#define INCLUDED_WHEEL_CONT
 #include "WheelCtrl.h"
-#endif
 
 using ev3api::ColorSensor;
 
@@ -35,10 +32,12 @@ class pidCtrl {
 //	const float Kd_color = 0.003;
 	const float Kd_color = 0.000;
 
-	// const float Kp_color_walk = 0.14;
-	const float Kp_color_walk = 0.5;
-	const float Ki_color_walk = 0.1;
-	const float Kd_color_walk = 0.005;
+//	const float Kp_color_walk = 0.14;
+	const float Kp_color_walk = 0.50;
+	const float Ki_color_walk = 0.0;
+//	const float Kd_color_walk = 0.005;
+	const float Kd_color_walk = 0.01;
+
 	int diff[2];
 	int diff_color[2];
 	int diff_color_walk[2];
@@ -47,6 +46,7 @@ class pidCtrl {
 	float motor_integral;
 	unsigned int target_val = 20;
 //	unsigned int target_val_color = 360; 本番コースで調整した値
-	unsigned int target_val_color = 280;
+//	unsigned int target_val_color = 280;
+	unsigned int target_val_color = 200;//難所用
 };
 
