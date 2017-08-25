@@ -41,8 +41,8 @@ float RightAngleDetection::calc_prop_value() {
   return (Kp * diff + angle_bias);                       // <4>
 }
 /*走る*/
-void RightAngleDetection::angle_run(int set_pwm) {
-  pidctrl.setTargetColor(280);
+void RightAngleDetection::angle_run(int set_pwm,int target) {
+  pidctrl.setTargetColor(target);
   float turn = pidctrl.calcColorWalkPid();
   turn *= 0.01;
   int pwm_l = set_pwm * (1.0 + turn);
@@ -51,7 +51,7 @@ void RightAngleDetection::angle_run(int set_pwm) {
   rightWheel.setPWM(pwm_r);
 }
 void RightAngleDetection::color_run(int set_pwm) {
-  pidctrl.setTargetColor(120);
+  pidctrl.setTargetColor(160);
   float turn = pidctrl.calcColorWalkPid();
   turn *= 0.01;
   int pwm_l = set_pwm * (1.0 + turn);
@@ -61,30 +61,40 @@ void RightAngleDetection::color_run(int set_pwm) {
 }
 /*色を返す*/
 void RightAngleDetection::detectionRun() {
+  if(first){
+    int32_t first_count_r = rightWheel.getCount();
+    int32_t first_count_l = leftWheel.getCount();
+
+    int32_t count_r = rightWheel.getCount()-first_count_r;
+    int32_t count_l = leftWheel.getCount()-first_count_l;
+    while((count_r+count_l)/2 < 80){
+      count_r = rightWheel.getCount()-first_count_r;
+      count_l = leftWheel.getCount()-first_count_l;
+      angle_run(5,200);
+    }
+    first=false;
+  }
   //光の強さを取る
   int diff = colorSensor.getBrightness();
-  //光の強さの加減を調べる
-  if(diff<min_bri){
-        min_bri = diff;
-  }
-  detectionIf(diff);
-  
-}
-
-void RightAngleDetection::detectionIf(int diff) {
+  rgb_raw_t rgb;
+  colorSensor.getRawColor(rgb);
+  int color_val = rgb.r + rgb.g +rgb.b;
+  msg_f(color_val,4);
   //暗い状態に入った瞬間
-  if(diff<line_limit){
-      // int back_count = rightWheel.getCount();
-      // rightWheel.setPWM(15);
-      // leftWheel.setPWM(15);
-      // while(back_count-rightWheel.getCount() > -30 ){
-      // }
+  // if(diff<line_limit){
+  if(color_val<80){
+      int back_count = rightWheel.getCount();
+      rightWheel.setPWM(15);
+      leftWheel.setPWM(15);
+      while(back_count-rightWheel.getCount() > -20 ){
+      }
       leftWheel.stop();
       rightWheel.stop();
       fin = false;
+      first=true;
     }else{
       clock.reset();
-      angle_run(5);
+      angle_run(5,280);
   }
 }
 /*床の色を検知したら保存*/

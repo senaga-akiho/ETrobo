@@ -101,10 +101,14 @@ void RunSelector::smallTurne() {
     }
 }
 void RunSelector::bigTurne() {
-    if(big_t_times%2 == 1){
-        move_turne.bigTurneR();
-    }else{
-        move_turne.bigTurneL();
+    if(big_t_times == 1){
+        move_turne.bigTurneR(-270);
+    }else if(big_t_times == 2){
+        move_turne.bigTurneL(370);
+    }else if(big_t_times == 3){
+        move_turne.bigTurneR(-270);
+    }else if(big_t_times == 4){
+        move_turne.bigTurneL(340);
     }
     if(move_turne.getFin() == false){
         mState = LINE_FIND;
@@ -119,6 +123,7 @@ void RunSelector::sonarDetection() {
         color_times = 1;
         angle_times = 1;
         line_times = 1;
+        big_t_times = 1;
         // mState = ARM_DOWN;
         if(sonar_times == 1 || sonar_times == 2){
             mState = LINE_FIND;
@@ -141,7 +146,6 @@ void RunSelector::lineFind() {
             mState = COLOR_DETECTION;
         }else if(line_times==3){
             mState = COLOR_DETECTION;
-            // mState = ANGLE_DETECTION;
         }else if(line_times==4){
             mState = ANGLE_DETECTION;
         }else if(line_times==5){
@@ -150,7 +154,6 @@ void RunSelector::lineFind() {
             mState = COLOR_DETECTION;
         }else if(line_times==7){
             mState = COLOR_DETECTION;
-            // mState = ANGLE_DETECTION;
         }else if(line_times==8){
             mState = ANGLE_DETECTION;
         }else if(line_times==9){

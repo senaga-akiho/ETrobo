@@ -10,10 +10,9 @@ using namespace ev3api;
 class RightAngleDetection {
 public:
   RightAngleDetection();
-  void angle_run(int set_pwm);
+  void angle_run(int set_pwm,int target);
   void color_run(int set_pwm);
   void detectionRun();
-  void detectionIf(int diff);
   void colorDetection();
   void sonarDetection();
   void armDown();

@@ -24,16 +24,20 @@ int32_t first_count_r;
 int32_t first_count_l;
 
 void MoveTurne::smallTurne() {
-  // turne(pwm*1,pwm*-1,105);
-  turne(pwm*1,pwm*-1,90);
+  turne(pwm*1,pwm*-1,110);
 }
-void MoveTurne::bigTurneR() {
+void MoveTurne::bigTurneR(int angle) {
   //turne(pwm*-1,pwm*1,-270);
-  turne(pwm*-1,pwm*1,-280);
+  turne(pwm*-1,pwm*1,angle);
 }
-void MoveTurne::bigTurneL() {
-  turne(pwm*1,pwm*-1,350);
-  // turne(pwm*1,pwm*-1,350);
+void MoveTurne::bigTurneL(int angle) {
+  // int diff = 0;
+  // diff = colorSensor.getBrightness();
+  // while(diff>8){
+  //   diff = colorSensor.getBrightness(); // <3>書き換え
+  //   turne(pwm*1,pwm*-1,2);
+  // }
+  turne(pwm*1,pwm*-1,angle);
 }
 void MoveTurne::turne(int8_t pwm_r,int8_t pwm_l,int fin_count) {
   if(movement == true){
