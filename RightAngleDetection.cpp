@@ -51,7 +51,7 @@ void RightAngleDetection::angle_run(int set_pwm) {
   rightWheel.setPWM(pwm_r);
 }
 void RightAngleDetection::color_run(int set_pwm) {
-  pidctrl.setTargetColor(130);
+  pidctrl.setTargetColor(120);
   float turn = pidctrl.calcColorWalkPid();
   turn *= 0.01;
   int pwm_l = set_pwm * (1.0 + turn);
