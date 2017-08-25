@@ -1,6 +1,9 @@
 #include "ev3api.h"
 #include "ColorSensor.h"
+#ifndef INCLUDED_WHEEL_CONT
+#define INCLUDED_WHEEL_CONT
 #include "WheelCtrl.h"
+#endif
 
 using ev3api::ColorSensor;
 

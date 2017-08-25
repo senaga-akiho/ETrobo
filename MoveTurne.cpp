@@ -31,8 +31,13 @@ void MoveTurne::bigTurneR() {
   turne(pwm*-1,pwm*1,-280);
 }
 void MoveTurne::bigTurneL() {
-  turne(pwm*1,pwm*-1,330);
-  // turne(pwm*1,pwm*-1,350);
+  int diff = 0;
+  diff = colorSensor.getBrightness();
+  while(diff>8){
+    diff = colorSensor.getBrightness(); // <3>書き換え
+    turne(pwm*1,pwm*-1,2);
+  }
+  turne(pwm*1,pwm*-1,70);
 }
 void MoveTurne::turne(int8_t pwm_r,int8_t pwm_l,int fin_count) {
   if(movement == true){
