@@ -24,7 +24,7 @@ int32_t first_count_r;
 int32_t first_count_l;
 
 void MoveTurne::smallTurne() {
-  turne(pwm*1,pwm*-1,105);
+  turne(pwm*1,pwm*-1,90);
 }
 void MoveTurne::bigTurneR() {
   //turne(pwm*-1,pwm*1,-270);
