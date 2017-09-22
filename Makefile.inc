@@ -7,11 +7,15 @@ APPL_CXXOBJS += \
 	WheelCtrl.o \
 	RightAngleDetection.o \
 	RunSelector.o \
-	MoveTurne.o \
-	SumouMove.o \
-	ItemMove.o \
 	pidCtrl.o\
-	Initializer.o
+	Initializer.o\
+	Calibration.o\
+	var_entering.o \
+	move.o \
+	pid_control.o \
+	onoff_control.o\
+	hsv_converter.o \
+	color_judge.o
 
 SRCLANG := c++
 

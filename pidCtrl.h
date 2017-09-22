@@ -13,6 +13,7 @@ class pidCtrl {
 	pidCtrl();
 	float calcPid();
 	float calcColorPid();
+	float calcColorSenagaPid();
 	float calcColorWalkPid();
 	float calcMotorPid();
 	void setLineRL(int setRL);
@@ -28,18 +29,21 @@ class pidCtrl {
 	const float Kd = 0.0;
 
 //	const float Kp_color = 0.12;
-	const float Kp_color = 0.04;
+	const float Kp_color = 0.12;
 //	const float Ki_color = 0.1;
-	const float Ki_color = 0.0;
+	const float Ki_color = 0.1;
 //	const float Kd_color = 0.006;
 //	const float Kd_color = 0.003;
-	const float Kd_color = 0.000;
+	const float Kd_color = 0.003;
 
 //	const float Kp_color_walk = 0.14;
-	const float Kp_color_walk = 0.50;
-	const float Ki_color_walk = 0.0;
+	const float Kp_color_walk = 0.50;//瀬長変更
+	// const float Kp_color_walk = 0.12;//瀬長変更
+	// const float Ki_color_walk = 0.01;
+	const float Ki_color_walk = 0.0;//瀬長変更
 //	const float Kd_color_walk = 0.005;
-	const float Kd_color_walk = 0.01;
+	const float Kd_color_walk = 0.00;//瀬長変更
+	// const float Kd_color_walk = 0.003;//瀬長変更
 
 	int diff[2];
 	int diff_color[2];

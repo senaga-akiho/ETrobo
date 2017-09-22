@@ -1,7 +1,6 @@
 #include "RightAngleDetection.h"
-#include "MoveTurne.h"
-#include "SumouMove.h"
-#include "ItemMove.h"
+#include "Calibration.h"
+
 
 using namespace ev3api;
 
@@ -16,32 +15,35 @@ public:
   void sonarDetection();
   void lineFind();
   void terminate();
-  void blockColorDetection();
-  void sumouRun();
   void itemRun();
-  void itemPlace();
   void firstArmUp();
+  void calibration_f();
+  void moveCenter();
+  void backCenter();
+  void firstBrock();
+  void secondBrock();
+  void thirdBrock();
+  void forceBrock();
 
  private:
   enum State {
         ANGLE_DETECTION,
-        SMALL_TURNE,
-        COLOR_DETECTION,
-        BIG_TURNE,
         SONAR_DETECTION,
-        LINE_FIND,
-        BLOCK_COLOR_DETECTION,
-        SUMOU_RUN,
         ITEM_RUN,
-        ITEM_PLACE,
         FIRST_ARM_UP,
+        CALIBRATION,
+        MOVE_CENTER,
+        BACK_CENTER,
+        FIRST_BROCK,
+        SECOND_BROCK,
+        THIRD_BROCK,
+        FORCE_BROCK,
         AAA
     
   };
   State mState;
   RightAngleDetection right_angle_detection;//追加
-  MoveTurne move_turne;//追加
-  SumouMove sumou_move;//追加
-  ItemMove item_move;//追加
+  Calibration calibration;//追加
+  int floar_color[8];
   // const int8_t pwm = (Motor::PWM_MAX) / 6;
  };
