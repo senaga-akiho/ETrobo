@@ -1,5 +1,6 @@
 # senagaETROBO
-ライントレ〜スせずに 距離指定で攻略
+ライントレースせずに 距離指定で攻略
+行動はほぼRightAngleDetection.cppでやっている！
 
 
 # 環境について
