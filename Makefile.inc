@@ -8,7 +8,6 @@ APPL_CXXOBJS += \
 	RightAngleDetection.o \
 	RunSelector.o \
 	pidCtrl.o\
-	Initializer.o\
 	Calibration.o\
 	var_entering.o \
 	move.o \
