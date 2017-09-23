@@ -125,32 +125,6 @@ void RunSelector::sonarDetection() {
         sonar_times = sonar_times+1;
     }
 }
-// void RunSelector::sumouRun() {
-//     int Fid= right_angle_detection.getFcolor();
-//     int Bid= right_angle_detection.getBcolor();
-//     floar_color[0] = 5;
-//     floar_color[1] = 2;
-//     floar_color[2] = 3;
-//     floar_color[3] = 4;
-//     floar_color[4] = 5;
-//     floar_color[5] = 2;
-//     floar_color[6] = 3;
-//     floar_color[7] = 4;
-//     // if(floar_color[sumou_times] == Bid){
-//     if(Fid==Bid){
-//         //色が一緒だったら寄り切り
-//         sumou_move.run(0);
-//     }else{
-//         //違かったら押し出し
-//         sumou_move.run(1);
-//     }
-//     if(sumou_move.getFin() == false){
-//         //回数を増やす
-//         sumou_times = sumou_times+1;
-//         mState=AAA;
-//         sumou_move.setFin(true);
-//     }
-// }
 void RunSelector::itemRun() {
     right_angle_detection.itemRun();
     if(right_angle_detection.getFin() == false){
