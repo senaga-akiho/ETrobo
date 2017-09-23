@@ -21,14 +21,6 @@ void RunSelector::runSelect() {
         msg_f("angleD.", 3);
         angleDetection();
         break;
-    case MOVE_CENTER:
-        msg_f("MoveC.", 3);
-        moveCenter();
-        break;
-    case BACK_CENTER:
-        msg_f("BackC.", 3);
-        backCenter();
-        break;
     case FIRST_BROCK:
         msg_f("FB.", 3);
         firstBrock();
@@ -74,7 +66,7 @@ void RunSelector::angleDetection() {
 	right_angle_detection.angleDetection(angle_times);
 	if(right_angle_detection.getFin() == false){
          if(angle_times==1){
-            mState = MOVE_CENTER;
+            mState = FIRST_BROCK;
         }else if(angle_times==2){
             mState = THIRD_BROCK;
         }else if(angle_times==3){
@@ -87,20 +79,6 @@ void RunSelector::angleDetection() {
         angle_times=angle_times+1;
 		right_angle_detection.setFin(true);
 	}
-}
-void RunSelector::moveCenter() {
-    right_angle_detection.moveCenter();
-    if(right_angle_detection.getFin() == false){
-        mState = FIRST_BROCK;
-        right_angle_detection.setFin(true);
-    }
-}
-void RunSelector::backCenter() {
-    right_angle_detection.backCenter();
-    if(right_angle_detection.getFin() == false){
-        mState = ANGLE_DETECTION;
-        right_angle_detection.setFin(true);
-    }
 }
 void RunSelector::firstBrock() {
     right_angle_detection.firstBrock();
@@ -126,7 +104,7 @@ void RunSelector::thirdBrock() {
 void RunSelector::forceBrock() {
     right_angle_detection.forceBrock();
     if(right_angle_detection.getFin() == false){
-        mState = BACK_CENTER;
+        mState = ANGLE_DETECTION;
         right_angle_detection.setFin(true);
     }
 }

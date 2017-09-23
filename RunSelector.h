@@ -18,8 +18,6 @@ public:
   void itemRun();
   void firstArmUp();
   void calibration_f();
-  void moveCenter();
-  void backCenter();
   void firstBrock();
   void secondBrock();
   void thirdBrock();
@@ -32,8 +30,6 @@ public:
         ITEM_RUN,
         FIRST_ARM_UP,
         CALIBRATION,
-        MOVE_CENTER,
-        BACK_CENTER,
         FIRST_BROCK,
         SECOND_BROCK,
         THIRD_BROCK,

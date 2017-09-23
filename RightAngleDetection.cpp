@@ -31,13 +31,6 @@ void RightAngleDetection::setAngeleTargetL(int8_t set_color) {
 void RightAngleDetection::setColorTarget(int8_t set_color) {
   color_target_first = set_color;
 }
-/*色を返す*/
-colorid_t RightAngleDetection::getBcolor() {
-    return block_color;
-}
-colorid_t RightAngleDetection::getFcolor() {
-    return floor_color;
-}
 /*
   直角検知に使う時のライントレース
 
@@ -75,7 +68,7 @@ void RightAngleDetection::angleDetection(int times) {
         angle_run(angle_speed_l_f,angle_target_normal);
       }
     }else{
-      while((count_r+count_l)/2 < 70){
+      while((count_r+count_l)/2 < 100){
         count_r = rightWheel.getCount()-first_count_r;
         count_l = leftWheel.getCount()-first_count_l;
         angle_run(angle_speed_l_f,angle_target_normal);
@@ -102,23 +95,8 @@ void RightAngleDetection::angleDetection(int times) {
     first=true;
   }else{
     //進む
-    clock.reset();
     angle_run(angle_speed_l,angle_target_normal);
   }
-}
-/*
-  中央に行く
-
-*/
-void RightAngleDetection::moveCenter() {
-  fin=false;
-}
-/*
-  中央に行く
-
-*/
-void RightAngleDetection::backCenter() {
-  fin=false;
 }
 /*
   １個目のブロックに行く
@@ -129,23 +107,23 @@ void RightAngleDetection::firstBrock() {
   move_class.spin(*stControl,90,15);
   move_class.goStraight(*stControl,230, sumou_pwm);
   move_class.goStraight(*stControl,120, -sumou_pwm);
-
   fin=false;
 }
 /*
   ２個目のブロックに行く
-
 */
 void RightAngleDetection::secondBrock() {
-  move_class.spin(*stControl,180, sumou_pwm);
-  move_class.goStraight(*stControl,310, sumou_pwm);
-  move_class.goStraight(*stControl,220, -sumou_pwm);
-  move_class.spin(*stControl,90, -sumou_pwm);
+  move_class.spin(*stControl,180, -sumou_pwm);
+  move_class.goStraight(*stControl,330, sumou_pwm);
+  move_class.goStraight(*stControl,240, -sumou_pwm);
+  move_class.spin(*stControl,90, sumou_pwm);//新幹線に当たらないよう変更
+  move_class.goStraight(*stControl,80, -sumou_pwm);//新幹線に当たらないよう変更
+  move_class.spin(*stControl,180, sumou_pwm);//新幹線に当たらないよう変更
+  //move_class.spin(*stControl,90, -sumou_pwm);//本来
   fin=false;
 }
 /*
   3個目のブロックに行く
-
 */
 void RightAngleDetection::thirdBrock() {
    move_class.goStraight(*stControl,50, sumou_pwm);
@@ -156,43 +134,26 @@ void RightAngleDetection::thirdBrock() {
 }
 /*
   4個目のブロックに行く
-
 */
 void RightAngleDetection::forceBrock() {
   move_class.spin(*stControl,180, -sumou_pwm);
-  move_class.goStraight(*stControl,310, sumou_pwm);
-  move_class.goStraight(*stControl,230, -sumou_pwm);
-  move_class.spin(*stControl,90, -sumou_pwm);
+  move_class.goStraight(*stControl,330, sumou_pwm);
+  move_class.goStraight(*stControl,250, -sumou_pwm);
+  move_class.spin(*stControl,90, sumou_pwm);//新幹線に当たらないよう変更
+  move_class.goStraight(*stControl,80, -sumou_pwm);//新幹線に当たらないよう変更
+  move_class.spin(*stControl,180, sumou_pwm);//新幹線に当たらないよう変更
+  // move_class.spin(*stControl,90, -sumou_pwm);//本来
   fin=false;
 }
+
 /*
-  押し出し
 
+  超音波検知して，1.5秒まってスタート
 */
-void RightAngleDetection::push(int num) {
-  msg_f("push",4);
-  move_class.goStraight(*stControl,60, sumou_pwm);
-  move_class.goStraight(*stControl,60, -sumou_pwm);
-}
-/*
-  寄り切り
-
-*/
-void RightAngleDetection::leaving() {
-  msg_f("leaving",4);
-  move_class.goStraight(*stControl,100, sumou_pwm);
-  move_class.goStraight(*stControl,100, -sumou_pwm);
-}
-
-/*超音波検知して，四秒まってスタート*/
 void RightAngleDetection::sonarDetection(int times) {
-  // msg_f(angle_target_sonar,4);
-  // msg_f(angle_target_normal,5);
-  // msg_f(color_target,6);
   if(sonar_first==true){
     sonar_first=false;
     //ライントレースをして角度を整える
-    //clock.reset();
     int32_t first_count;
     first_count = rightWheel.getCount();
     first_count +=leftWheel.getCount();
@@ -206,8 +167,8 @@ void RightAngleDetection::sonarDetection(int times) {
   }
   int16_t distance = sonarSensor.getDistance(); // <3>書き換え
   msg_f(distance,4);
-  //暗い状態に入った瞬間
-  if(distance<35 && distance!=0){
+  //距離が縮まった瞬間
+  if(distance<210 && distance!=0){
     leftWheel.stop();
     rightWheel.stop();
     // 
@@ -231,19 +192,6 @@ void RightAngleDetection::sonarDetection(int times) {
     sonar_first=true;
     fin = false;
   }else{
-    // //回転して障害物を見つける
-    // if(clock.now() > 300){
-    //   clock.reset();
-    //   if(small_turne){
-    //     small_turne = false;
-    //     rightWheel.setPWM(-10);
-    //     leftWheel.setPWM(10);
-    //   }else{
-    //     small_turne = true;
-    //     rightWheel.setPWM(10);
-    //     leftWheel.setPWM(-10);
-    //   }
-    // }
   }
 }
 //ARMをあげる
@@ -275,28 +223,9 @@ void RightAngleDetection::armMove(int angle) {
     }
   }
 }
-/*ブロックの色を調べる*/
-void RightAngleDetection::blockColorDetection() {
-  HsvConverter hsvConverter;
-  ie::ColorJudge colorJudge(hsvConverter);
-  int up_num = 1;
-  clock.sleep(200);
-  armMove(60);
-    while(true){
-      armMove(1);
-      rgb_raw_t rgb;
-      colorSensor.getRawColor(rgb);
-      int color_val = rgb.r + rgb.g +rgb.b;
-      block_color = colorJudge.getColorNumber(rgb.r, rgb.g, rgb.b);
-      if(block_color!=COLOR_NONE && block_color!=COLOR_BLACK
-        && block_color!=COLOR_WHITE){
-          break;
-      }
-      up_num = up_num+1;
-    }
-    armMove(-1*up_num);
-    armMove(-60);
-}
+/*
+  懸賞
+*/
 void RightAngleDetection::itemRun() {
   armMove(-15);
   move_class.goStraight(*stControl,125, -item_pwm);

@@ -1,5 +1,6 @@
-# etrobo2017
-ETロボコン2017用
+# senagaETROBO
+ライントレ〜スせずに 距離指定で攻略
+
 
 # 環境について
 - hrp2/sdk/workspace 下にフォルダを作成し,cloneしてください
